@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  desc: MyText
+  SKU: MyString
+  product_category: one
+  product_inventory: one
+  price: 9.99
+  dicount: one
+
+two:
+  name: MyString
+  desc: MyText
+  SKU: MyString
+  product_category: two
+  product_inventory: two
+  price: 9.99
+  dicount: two

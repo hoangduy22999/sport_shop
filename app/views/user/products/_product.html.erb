@@ -1,0 +1,25 @@
+<div class="col-sm-6 col-md-4 col-lg-4" data-controller="cart">
+    <div class="box">
+        <div class="option_container">
+        <div class="options">
+            <a class="option1" data-action="click->cart#add_item">
+            Add To Cart
+            </a>
+            <a href="" class="option2">
+            Buy Now
+            </a>
+        </div>
+        </div>
+        <div class="img-box">
+        <%= image_tag("logo.png", height: '50', width: '50') %>
+        </div>
+        <div class="detail-box">
+        <h5>
+            <%= product.name %>
+        </h5>
+        <h6>
+            $<%= product.price %>
+        </h6>
+        </div>
+    </div>
+</div>
