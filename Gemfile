@@ -79,3 +79,5 @@ gem 'sass-rails'
 gem 'bootstrap'
 
 gem "jquery-rails"
+
+gem 'pry'

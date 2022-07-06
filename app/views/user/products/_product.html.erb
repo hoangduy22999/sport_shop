@@ -20,6 +20,8 @@
         <h6>
             $<%= product.price %>
         </h6>
+        <input type="hidden" data-cart-target="product" value="<%= product.id %>" >
+        <input type="hidden" data-cart-target="shopping_session" value="<%= current_user.shopping_session.id %>" >
         </div>
     </div>
 </div>
