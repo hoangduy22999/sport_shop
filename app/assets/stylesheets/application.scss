@@ -13,7 +13,10 @@
  *= require_tree .
  *= require_self
  */
-@import "responsive.css";
+@import "responsive.scss";
 @import "style.css";
 @import "bootstrap.css";
 @import "bootstrap";
+@import "cart.css";
+@import "cart_item.scss";
+@import "order.scss"

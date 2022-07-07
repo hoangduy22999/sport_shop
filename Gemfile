@@ -81,3 +81,4 @@ gem 'bootstrap'
 gem "jquery-rails"
 
 gem 'pry'
+gem "active_model_serializers", "~> 0.10.13"
