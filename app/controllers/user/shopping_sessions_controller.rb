@@ -1,17 +1,21 @@
 class User::ShoppingSessionsController < ApplicationController
     include User::ShoppingSessionsHelper
+    before_action :authenticate_user!
 
-    def update
-        @cart_item = current_user.shopping_session.cart_items.new(cart_items_params)
-        if @cart_item.save
-            render json: {items_in_cart: items_in_cart }
-        else
-            render json: { errors: "Can't add item" }
-        end
+    def show
+        render json: {
+            data: ActiveModelSerializers::SerializableResource.new(shopping_session, serializer: ShoppingSessionSerializer),
+            status: 200,
+            type: 'Success'
+        }
     end
 
-    private
-        def cart_items_params
-            params.require(:cart_items).permit(:product_id, :quantity)
+    def apply_discount
+        discount = Discount.find_by(code: params[:code], active: true)
+        if discount
+            render json: { percent: discount.percent, status: 'success'}
+        else
+            render json: { error: "Discount is not available", status: 'error' }
         end
+    end
 end

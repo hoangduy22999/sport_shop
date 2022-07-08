@@ -1,0 +1,99 @@
+<div id="cart-item-<%= cart_item.id %>" class="card rounded-3 mb-4">
+    <div class="card-body p-4">
+        <div class="row d-flex justify-content-between align-items-center">
+            <div class="col-md-2 col-lg-2 col-xl-2">
+            <img
+                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
+                class="img-fluid rounded-3" alt="Cotton T-shirt">
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+                <p class="lead fw-normal mb-2">Basic T-shirt</p>
+                <p><span class="text-muted">Size: </span>M <span class="text-muted">Color: </span>Grey</p>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-2 d-flex  quantity-input">
+                <button class="btn btn-link px-2"
+                    onclick="downQuantity(this.parentNode.querySelector('input[type=number]'))">
+                    <i class="fas fa-minus"></i>
+                </button>
+
+                <input min="0" name="quantity" value="<%= cart_item.quantity %>" type="number"
+                    class="form-control form-control-sm cart-item-input" data-cart-item-id="<%= cart_item.id %>" data-cart-item-price="<%= cart_item.product.price %>"/>
+
+                <button class="btn btn-link px-2"
+                    onclick="upQuantity(this.parentNode.querySelector('input[type=number]'))">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                <h5 id="price-for-cart-items" class="mb-0"><%= price_for_cart_items cart_item %> $</h5>
+            </div>
+            <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                <button href="#!" class="btn btn-link text-danger" onclick="removeItem('<%= cart_item.id %>')"><i class="fas fa-trash fa-lg"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function upQuantity(element) {
+        element.stepUp()
+        setPricePack(element)
+        updateTotal()
+    }
+
+    function downQuantity(element){
+        if (element.value == 1) {
+            removeItem(element.dataset.cartItemId)
+        }
+        else {
+            element.stepDown()
+            setPricePack(element)
+        }
+        updateTotal()
+    }
+
+    function removeItem(cartItemId) {
+        let text = "Remove Item From Order"
+        if (confirm(text) == true) {
+            document.getElementById(`cart-item-${cartItemId}`).remove()
+            remmoveItemBackend(cartItemId)
+        }
+    }
+
+    function remmoveItemBackend(cartItemId) {
+        const csrfToken = document.querySelector("[name='csrf-token']").content
+        fetch(`/user/cart_items/${cartItemId}`, {
+            method: 'DELETE',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': csrfToken
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            })
+    }
+    function updateTotal(){
+        let total = Number.parseFloat(getTotalPrice()).toFixed(2)
+        document.getElementById("total-price").textContent = `${total} $`
+        setSummary()
+    }
+
+    function getTotalPrice() {
+        let total = 0
+        const cartItems = document.getElementsByClassName('cart-item-input')
+        for (let i = 0; i < cartItems.length; i++) {
+            total += parseInt(cartItems[i].value) * parseInt(cartItems[i].dataset.cartItemPrice)
+        }
+        return total
+    }
+
+    function setPricePack(element){
+        const price = Number.parseFloat(parseFloat(element.value) * parseFloat(element.dataset.cartItemPrice)).toFixed(2)
+        document.getElementById("price-for-cart-items").textContent  = `${price} $`
+    }
+</script>
