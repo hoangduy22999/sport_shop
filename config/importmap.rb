@@ -12,5 +12,6 @@ pin "@fortawesome/free-regular-svg-icons", to: "https://ga.jspm.io/npm:@fortawes
 pin "@fortawesome/free-solid-svg-icons", to: "https://ga.jspm.io/npm:@fortawesome/free-solid-svg-icons@6.1.1/index.es.js"
 pin "bootstrap", to: "https://ga.jspm.io/npm:bootstrap@5.1.3/dist/js/bootstrap.esm.js"
 pin "@popperjs/core", to: "https://ga.jspm.io/npm:@popperjs/core@2.11.5/lib/index.js"
-pin "jquery", to: "jquery.min.js", preload: true
+pin "jquery", to: "https://ga.jspm.io/npm:jquery@3.6.0/dist/jquery.js"
 pin "jquery_ujs", to: "jquery_ujs.js", preload: true
+pin "toastr", to: "https://ga.jspm.io/npm:toastr@2.1.4/toastr.js"

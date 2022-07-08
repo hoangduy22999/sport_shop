@@ -9,4 +9,13 @@ class User::ShoppingSessionsController < ApplicationController
             type: 'Success'
         }
     end
+
+    def apply_discount
+        discount = Discount.find_by(code: params[:code], active: true)
+        if discount
+            render json: { percent: discount.percent, status: 'success'}
+        else
+            render json: { error: "Discount is not available", status: 'error' }
+        end
+    end
 end

@@ -1,7 +1,9 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
+//= require toastr
 import "@hotwired/turbo-rails"
 import "controllers"
 import 'bootstrap'
+import 'toastr'
 
 import {far} from "@fortawesome/free-regular-svg-icons"
 import {fas} from "@fortawesome/free-solid-svg-icons"

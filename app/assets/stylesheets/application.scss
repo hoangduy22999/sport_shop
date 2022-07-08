@@ -12,6 +12,7 @@
  *
  *= require_tree .
  *= require_self
+ *= require toastr
  */
 @import "responsive.scss";
 @import "style.css";
@@ -19,4 +20,5 @@
 @import "bootstrap";
 @import "cart.css";
 @import "cart_item.scss";
-@import "order.scss"
+@import "order.scss";
+@import "toastr";

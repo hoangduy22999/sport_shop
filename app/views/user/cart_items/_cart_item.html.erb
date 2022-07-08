@@ -37,7 +37,8 @@
 <script>
     function upQuantity(element) {
         element.stepUp()
-        document.getElementById("price-for-cart-items").textContent  = `${parseFloat(element.value) * parseFloat(element.dataset.cartItemPrice)} $`
+        setPricePack(element)
+        updateTotal()
     }
 
     function downQuantity(element){
@@ -46,8 +47,9 @@
         }
         else {
             element.stepDown()
-            document.getElementById("price-for-cart-items").textContent = `${parseFloat(element.value) * parseFloat(element.dataset.cartItemPrice)} $`
+            setPricePack(element)
         }
+        updateTotal()
     }
 
     function removeItem(cartItemId) {
@@ -74,5 +76,24 @@
             .then(data => {
                 console.log(data)
             })
+    }
+    function updateTotal(){
+        let total = Number.parseFloat(getTotalPrice()).toFixed(2)
+        document.getElementById("total-price").textContent = `${total} $`
+        setSummary()
+    }
+
+    function getTotalPrice() {
+        let total = 0
+        const cartItems = document.getElementsByClassName('cart-item-input')
+        for (let i = 0; i < cartItems.length; i++) {
+            total += parseInt(cartItems[i].value) * parseInt(cartItems[i].dataset.cartItemPrice)
+        }
+        return total
+    }
+
+    function setPricePack(element){
+        const price = Number.parseFloat(parseFloat(element.value) * parseFloat(element.dataset.cartItemPrice)).toFixed(2)
+        document.getElementById("price-for-cart-items").textContent  = `${price} $`
     }
 </script>

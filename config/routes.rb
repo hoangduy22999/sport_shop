@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   namespace :user do
     resources :products, only: [:index, :show]
     resources :shopping_sessions, only: [:show, :update]
+    post '/apply_discount', to: 'shopping_sessions#apply_discount'
     resources :orders, only: [:new, :create]
     resources :cart_items, only: [:create, :show, :destroy]
   end

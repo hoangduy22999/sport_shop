@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_06_064629) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_07_190925) do
   create_table "cart_items", force: :cascade do |t|
     t.integer "shopping_session_id", null: false
     t.integer "product_id", null: false
@@ -24,10 +24,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_06_064629) do
   create_table "discounts", force: :cascade do |t|
     t.string "name"
     t.text "desc"
-    t.decimal "discount_percent"
+    t.decimal "percent"
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "code"
   end
 
   create_table "order_items", force: :cascade do |t|

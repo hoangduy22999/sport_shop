@@ -11,15 +11,28 @@
 
         <div class="card mb-4">
           <div class="card-body p-4 d-flex flex-row">
-            <div class="form-outline flex-fill">
-              <input type="text" id="form1" class="form-control form-control" placeholder="Discound code" />
+            <div class="form-outline flex-fill col-sm-7">
+              <input type="text" id="discount-code" class="form-control" placeholder="Discound code"  data-discout-percent ="0"/>
             </div>
-            <button type="button" class="btn btn-outline-warning btn ms-3">Apply</button>
+            <button type="button" class="btn btn-outline-warning btn ms-3" onclick="applyDiscount()">Apply</button>
+            <span class="d-flex align-items-center ml-4 text-danger" id="error-message"></span>
           </div>
         </div>
 
         <div class="card">
           <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h3 class="fw-normal mb-0 text-black">Total: </h3>
+              <h3 class="fw-normal mb-0 text-black" id="total-price" ><%= sprintf('%.2f', @shopping_session.total) %> $</h3>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-4 text-danger">
+              <h7 class="fw-normal mb-0 text-black">Discount: </h7>
+              <h7 class="fw-normal mb-0 text-black" id="discount-price">- 0.00 $</h7>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h3 class="fw-normal mb-0 text-black">Final:</h3>
+              <h3 class="fw-normal mb-0 text-black" id="final-price"><%= @shopping_session.total.to_i %> $</h3>
+            </div>
             <button type="button" class="btn btn-block btn-lg btn-submit">Proceed to Pay</button>
           </div>
         </div>
@@ -28,3 +41,46 @@
     </div>
   </div>
 </section>
+
+<script>
+  function applyDiscount() {
+    const element = document.getElementById("discount-code")
+    const total = document.getElementById("")
+    const csrfToken = document.querySelector("[name='csrf-token']").content
+    fetch(`/user/apply_discount`, {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': csrfToken
+      },
+      body: JSON.stringify({ code: element.value })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status == 'error'){
+        const errorSpan = document.getElementById('error-message')
+        errorSpan.textContent = data.error
+        setTimeout(function() {
+          errorSpan.textContent = '';
+        }, 1500);
+      }
+      else {
+        element.dataset.discoutPercent = data.percent
+        setSummary()
+      }
+      element.value = ''
+    })
+  }
+
+  function setSummary() {
+    let total = parseInt(getTotalPrice())
+    let getPercent = parseFloat(document.getElementById("discount-code").dataset.discoutPercent)
+    let discount = Number.parseFloat(total*getPercent).toFixed(2)
+    let summary = Number.parseFloat(total*(1-getPercent)).toFixed(2)
+    document.getElementById('discount-price').textContent = `- ${discount} $`
+    document.getElementById('final-price').textContent = `${summary} $`
+  }
+</script>
